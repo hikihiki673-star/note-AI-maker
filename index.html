@@ -185,6 +185,23 @@
       color: #be185d;
       text-shadow: none;
     }
+    .problem-item {
+      background: #fff;
+      padding: 16px 18px;
+      border-radius: 16px;
+      margin-bottom: 14px;
+      border-left: 4px solid #f97316;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+    .problem-item strong {
+      color: #f97316;
+      font-weight: 700;
+    }
+    .problem-item p {
+      margin: 8px 0 0 0;
+      line-height: 1.6;
+      color: #334155;
+    }
     footer {
       text-align: center;
       padding: 30px 24px;
@@ -278,7 +295,7 @@
     }
     @media (min-width: 768px) {
       .note-preview {
-        grid-template-columns: 1.2fr 0.8fr;
+        grid-template-columns: 1fr 1fr;
       }
     }
     @media (max-width: 640px) {
@@ -379,17 +396,27 @@
       <h2 class="section-title">ノート例と自動生成イメージ</h2>
       <div class="note-preview">
         <div class="note-card">
-          <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=720&q=80" alt="数学ノートの例">
+          <img src="https://images.unsplash.com/photo-1507842217343-583f7270bfba?w=720&q=80" alt="数学ノートの例">
           <div class="note-text">
-            <h3>数学ノートの例</h3>
-            <p>「2次方程式の解き方」「標準形」「判別式の意味」などを解析し、問題を作成します。</p>
+            <h3>ノート写真を撮影</h3>
+            <p>教科書やノートをカメラで撮影。AI が文字をきれいに認識します。</p>
           </div>
         </div>
         <div class="note-card">
           <div class="note-text">
-            <h3>自動生成された問題</h3>
-            <p>例題1: 判別式が 0 のとき、二次方程式の解はどうなる？</p>
-            <p>例題2: 次の式を標準形に変換しなさい。</p>
+            <h3>✨ 自動生成された問題</h3>
+            <div class="problem-item">
+              <strong>問題 1</strong>
+              <p>次の二次方程式を解きなさい。<br>x² - 5x + 6 = 0</p>
+            </div>
+            <div class="problem-item">
+              <strong>問題 2</strong>
+              <p>判別式が 0 のとき、二次方程式の解はどのような性質を持つか？</p>
+            </div>
+            <div class="problem-item">
+              <strong>問題 3</strong>
+              <p>次の式を標準形（ax + b）²の形に変換しなさい。<br>x² - 4x + 4</p>
+            </div>
           </div>
         </div>
       </div>
