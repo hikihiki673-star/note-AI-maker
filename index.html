@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ノート写真で問題が作れる学習サイト</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      font-family: 'Zen Maru Gothic', sans-serif;
+      background: #fdf4ff;
+      color: #1f2937;
+    }
+    * {
+      box-sizing: border-box;
+    }
+    :where([hidden], .hidden) {
+      display: none !important;
+    }
+    html {
+      min-height: 100%;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.16), transparent 28%),
+                  radial-gradient(circle at bottom right, rgba(14, 165, 233, 0.18), transparent 30%),
+                  linear-gradient(180deg, #f8fbff 0%, #e0f2fe 100%);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: top center;
+    }
+    header {
+      background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);
+      color: #fff;
+      padding: 52px 24px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before,
+    header::after {
+      content: '';
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.35;
+    }
+    header::before {
+      width: 160px;
+      height: 160px;
+      background: rgba(255, 255, 255, 0.25);
+      top: -40px;
+      left: 10%;
+    }
+    header::after {
+      width: 110px;
+      height: 110px;
+      background: rgba(56, 189, 248, 0.28);
+      bottom: -20px;
+      right: 12%;
+    }
+    header h1 {
+      margin: 0;
+      font-size: clamp(2.1rem, 5vw, 3.8rem);
+      letter-spacing: -0.05em;
+      line-height: 1.05;
+      text-shadow: none;
+    }
+    header p {
+      max-width: 640px;
+      margin: 18px auto 0;
+      line-height: 1.7;
+      font-size: 1.05rem;
+      opacity: 0.95;
+    }
+    .hero-button {
+      display: inline-block;
+      margin-top: 28px;
+      padding: 16px 32px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #ff9a8b 0%, #f97316 100%);
+      color: #fff;
+      text-decoration: none;
+      font-weight: 700;
+      text-shadow: none;
+      box-shadow: 0 14px 32px rgba(249, 115, 22, 0.24);
+      transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+    }
+    .hero-button:hover {
+      transform: translateY(-3px);
+      filter: brightness(1.05);
+      box-shadow: 0 20px 38px rgba(249, 115, 22, 0.3);
+    }
+    main {
+      padding: 32px 24px 64px;
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .section-title {
+      font-size: 1.75rem;
+      margin-bottom: 18px;
+      text-shadow: none;
+    }
+    .card {
+      background: linear-gradient(180deg, #ffffff 0%, #fdf2f8 100%);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 28px 80px rgba(168, 85, 247, 0.08);
+      margin-bottom: 32px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.85);
+    }
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+    .feature-grid {
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+    .feature-item {
+      background: linear-gradient(135deg, #fff7ed 0%, #fef3c7 100%);
+      padding: 24px;
+      border-radius: 26px;
+      min-height: 180px;
+      border: 1px solid rgba(251, 146, 60, 0.2);
+    }
+    .feature-item h3 {
+      margin-top: 0;
+      font-size: 1.15rem;
+      color: #d946ef;
+      text-shadow: none;
+    }
+    .feature-item p {
+      margin: 14px 0 0;
+      line-height: 1.75;
+      color: #334155;
+    }
+    .how-list {
+      display: grid;
+      gap: 16px;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    .how-list li {
+      background: #fff;
+      border: 1px solid #e2e8f0;
+      border-radius: 18px;
+      padding: 18px;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+    .note-preview {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+    .note-card {
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(59, 130, 246, 0.2);
+      background: linear-gradient(180deg, #ffffff 0%, #f0f9ff 100%);
+      box-shadow: 0 18px 40px rgba(59, 130, 246, 0.08);
+    }
+    .note-card img {
+      width: 100%;
+      display: block;
+    }
+    .note-card .note-text {
+      padding: 24px;
+    }
+    .note-card .note-text h3 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      color: #be185d;
+      text-shadow: none;
+    }
+    footer {
+      text-align: center;
+      padding: 30px 24px;
+      color: #7c3aed;
+      font-size: 0.95rem;
+      background: #faf5ff;
+      border-top: 1px solid rgba(167, 139, 250, 0.25);
+    }
+    .slide-up {
+      display: none;
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .slide-up.visible {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .upload-area {
+      display: grid;
+      gap: 16px;
+      padding: 20px;
+      border: 2px dashed rgba(236, 72, 153, 0.55);
+      border-radius: 24px;
+      background: linear-gradient(180deg, #fff0f6 0%, #fff5f7 100%);
+      text-align: center;
+      box-shadow: inset 0 0 0 1px rgba(236, 72, 153, 0.12);
+    }
+    .upload-area:hover {
+      border-color: #ec4899;
+      background: #ffe4ed;
+    }
+    .preview-image {
+      width: 100%;
+      max-height: 360px;
+      object-fit: contain;
+      border-radius: 22px;
+      border: 1px solid rgba(236, 72, 153, 0.18);
+      background: #fff;
+    }
+    .results {
+      margin-top: 24px;
+      white-space: pre-wrap;
+      line-height: 1.75;
+      color: #334155;
+      background: linear-gradient(180deg, #f8fafc 0%, #fef9c3 100%);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      border-radius: 22px;
+      padding: 24px;
+      box-shadow: 0 18px 40px rgba(236, 72, 153, 0.08);
+    }
+    .api-key-row {
+      display: grid;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .api-key-row input {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      font-size: 1rem;
+      background: #fff;
+    }
+    .action-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .small-button {
+      padding: 14px 24px;
+      border-radius: 999px;
+      border: none;
+      font-weight: 700;
+      cursor: pointer;
+      background: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%);
+      color: #fff;
+      text-shadow: none;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .small-button:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+    }
+    .status-text {
+      color: #6d28d9;
+      font-size: 0.98rem;
+    }
+    @media (min-width: 768px) {
+      .note-preview {
+        grid-template-columns: 1.2fr 0.8fr;
+      }
+    }
+    @media (max-width: 640px) {
+      header {
+        padding: 32px 16px 40px;
+      }
+      header h1 {
+        font-size: 2.2rem;
+      }
+      .hero-button {
+        width: 100%;
+        max-width: none;
+        padding: 16px 20px;
+      }
+      main {
+        padding: 24px 16px 48px;
+      }
+      .card {
+        padding: 20px;
+        border-radius: 20px;
+      }
+      .section-title {
+        font-size: 1.5rem;
+      }
+      .feature-grid {
+        grid-template-columns: 1fr;
+      }
+      .action-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .small-button {
+        width: 100%;
+      }
+      .api-key-row input {
+        font-size: 0.95rem;
+      }
+      .note-card .note-text {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ノート写真で問題が自動作成</h1>
+    <p>中高生向け。教科書やノートをスマホで撮るだけで、覚えるための練習問題をすぐに表示します。</p>
+    <button id="upload-button" class="hero-button" type="button">今すぐ始める</button>
+    <input id="upload-input" type="file" accept="image/*" hidden>
+  </header>
+
+  <main>
+    <section id="start" class="card slide-up">
+      <h2 class="section-title">使い方はとても簡単</h2>
+      <ul class="how-list">
+        <li><strong>1. ノートを撮影</strong> - 例題や公式、重要ポイントをきれいに撮影します。</li>
+        <li><strong>2. 文章を解析</strong> - アプリが文字を読み取り、重要な内容を抽出します。</li>
+        <li><strong>3. 問題を表示</strong> - 自習用の問題が自動で生成されます。</li>
+      </ul>
+    </section>
+
+    <section id="upload-section" class="card slide-up">
+      <h2 class="section-title">ノート写真をアップロード</h2>
+      <div class="upload-area" id="upload-area">
+        <p>「今すぐ始める」ボタンを押して、ノートの写真をアップロードしてください。</p>
+        <p class="status-text" id="upload-instruction">写真を選ぶと、OCR と AI 解析が開始されます。中学生／高校生判定と過去試験傾向に近い問題を生成します。</p>
+      </div>
+      <div class="api-key-row">
+        <input id="api-key" type="password" placeholder="OpenAI API キーを入力（例: sk-...）">
+      </div>
+      <div class="action-row">
+        <button id="parse-button" class="small-button" type="button">AI で解析</button>
+        <span id="status-text" class="status-text"></span>
+      </div>
+      <img id="preview-image" class="preview-image" alt="アップロードしたノート写真のプレビュー" hidden>
+      <div id="result-output" class="results" hidden></div>
+    </section>
+
+    <section class="card slide-up">
+      <h2 class="section-title">こんな場面に役立つ</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h3>定期テスト対策</h3>
+          <p>授業ノートをそのまま活用して、出題形式に近い問題をすばやく作成。</p>
+        </div>
+        <div class="feature-item">
+          <h3>暗記の強化</h3>
+          <p>重要語句や公式を確認しながら、すきま時間に集中練習できます。</p>
+        </div>
+        <div class="feature-item">
+          <h3>部活と勉強の両立</h3>
+          <p>早く準備したい人にも。撮影して待つだけで問題が準備完了。</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="card slide-up">
+      <h2 class="section-title">ノート例と自動生成イメージ</h2>
+      <div class="note-preview">
+        <div class="note-card">
+          <img src="https://via.placeholder.com/720x420?text=ノート写真" alt="ノート写真の例">
+          <div class="note-text">
+            <h3>数学ノートの例</h3>
+            <p>「2次方程式の解き方」「標準形」「判別式の意味」などを解析し、問題を作成します。</p>
+          </div>
+        </div>
+        <div class="note-card">
+          <div class="note-text">
+            <h3>自動生成された問題</h3>
+            <p>例題1: 判別式が 0 のとき、二次方程式の解はどうなる？</p>
+            <p>例題2: 次の式を標準形に変換しなさい。</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>中高生向けノート問題作成サイト</p>
+    <p>© 2026 学習サポート</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@4.1.3/dist/tesseract.min.js"></script>
+  <script src="scripts.js"></script>
+</body>
+</html>
